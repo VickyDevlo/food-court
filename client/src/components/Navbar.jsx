@@ -5,6 +5,7 @@ import { NAV, INSTAGRAM_URL } from "../assets/data/data";
 import { scrollTo } from "../config/motion";
 import { useActiveSection } from "../hooks/useActiveSection";
 import { InstagramIcon } from "../assets/InstagramIcon";
+import { useScrollToSection } from "../hooks/useScrollToSection";
 
 const IDS = NAV.map(([id]) => id);
 
@@ -13,7 +14,15 @@ export const Navbar = () => {
   const [locked, setLocked] = useState(null);
   const spy = useActiveSection(IDS);
   const active = locked ?? spy;
+  const { navigateToSection } = useScrollToSection();
 
+  const handleClick = (id) => {
+    navigateToSection(id);
+    setOpen(false);
+    setLocked(id);
+  };
+
+  // release the lock once the click-scroll has finished
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     const onKey = (e) => e.key === "Escape" && setOpen(false);
@@ -26,8 +35,7 @@ export const Navbar = () => {
       window.removeEventListener("resize", onResize);
     };
   }, [open]);
-
-  // release the lock once the click-scroll has finished
+  
   useEffect(() => {
     if (!locked) return;
     let idle;
@@ -44,12 +52,6 @@ export const Navbar = () => {
     };
   }, [locked]);
 
-  const go = (id) => {
-    setOpen(false);
-    setLocked(id);
-    setTimeout(() => scrollTo(id), 60);
-  };
-
   return (
     <>
       <motion.header
@@ -63,7 +65,7 @@ export const Navbar = () => {
           className="max-w-full mx-auto flex h-14 items-center justify-between gap-2 rounded-full border-2 border-ink bg-paper pl-2 pr-2 shadow-[4px_4px_0_0_var(--color-ink)] sm:pl-3"
         >
           <button
-            onClick={() => go("home")}
+            onClick={() => handleClick("home")}
             className="flex min-w-0 shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap"
             aria-label="Chili & Chill Food Court, back to top"
           >
@@ -82,7 +84,7 @@ export const Navbar = () => {
             {NAV.map(([id, label]) => (
               <li key={id}>
                 <button
-                  onClick={() => go(id)}
+                  onClick={() => handleClick(id)}
                   className="relative cursor-pointer rounded-full px-4 py-2 text-sm font-semibold"
                 >
                   {active === id && (
@@ -151,7 +153,7 @@ export const Navbar = () => {
                   className="border-b-2 border-ink/15 last:border-0"
                 >
                   <button
-                    onClick={() => go(id)}
+                    onClick={() => handleClick(id)}
                     aria-current={active === id ? "true" : undefined}
                     className={`flex min-h-14 w-full cursor-pointer items-center justify-between gap-4 py-3 text-left font-display text-xl font-extrabold [-webkit-tap-highlight-color:transparent]
                     transition-[transform,color] duration-300 active:scale-[0.98] active:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-chili
