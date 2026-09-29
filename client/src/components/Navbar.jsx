@@ -10,7 +10,9 @@ const IDS = NAV.map(([id]) => id);
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(IDS);
+  const [locked, setLocked] = useState(null);
+  const spy = useActiveSection(IDS);
+  const active = locked ?? spy;
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -25,8 +27,26 @@ export const Navbar = () => {
     };
   }, [open]);
 
+  // release the lock once the click-scroll has finished
+  useEffect(() => {
+    if (!locked) return;
+    let idle;
+    const fallback = setTimeout(() => setLocked(null), 1800);
+    const onScroll = () => {
+      clearTimeout(idle);
+      idle = setTimeout(() => setLocked(null), 140);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(fallback);
+      clearTimeout(idle);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [locked]);
+
   const go = (id) => {
     setOpen(false);
+    setLocked(id);
     setTimeout(() => scrollTo(id), 60);
   };
 
@@ -68,11 +88,18 @@ export const Navbar = () => {
                   {active === id && (
                     <motion.span
                       layoutId="nav-pill"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 32,
+                      }}
                       className="absolute inset-0 rounded-full bg-ink"
                     />
                   )}
                   <span
-                    className={`relative ${active === id ? "text-turmeric" : "hover:text-chili"}`}
+                    className={`relative transition-colors duration-300 ${
+                      active === id ? "text-turmeric" : "hover:text-chili"
+                    }`}
                   >
                     {label}
                   </span>
@@ -87,7 +114,7 @@ export const Navbar = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="Follow us on Instagram"
-              className="inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-full border-2 border-ink bg-chili px-0 text-sm font-bold text-paper transition hover:bg-turmeric hover:text-ink sm:px-4"
+              className="hidden lg:inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-full border-2 border-ink bg-chili px-0 text-sm font-bold text-paper transition hover:bg-turmeric hover:text-ink sm:px-4"
             >
               <InstagramIcon size={18} />{" "}
               <span className="hidden sm:inline">Follow</span>
@@ -112,7 +139,7 @@ export const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-turmeric px-6 pb-8 pt-24 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-turmeric px-6 pb-8 pt-20 md:hidden"
           >
             <ul className="flex flex-1 flex-col justify-center overflow-y-auto overscroll-contain px-1">
               {NAV.map(([id, label], i) => (
@@ -126,19 +153,11 @@ export const Navbar = () => {
                   <button
                     onClick={() => go(id)}
                     aria-current={active === id ? "true" : undefined}
-                    className={`flex min-h-14 w-full cursor-pointer items-center justify-between gap-4 
-          py-3 text-left font-display text-xl font-extrabold [-webkit-tap-highlight-color:transparent]
-          transition-transform active:scale-[0.98] active:bg-ink/5
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-chili
-          ${active === id ? "text-chili" : "text-ink"}`}
+                    className={`flex min-h-14 w-full cursor-pointer items-center justify-between gap-4 py-3 text-left font-display text-xl font-extrabold [-webkit-tap-highlight-color:transparent]
+                    transition-[transform,color] duration-300 active:scale-[0.98] active:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-chili
+                    ${active === id ? "text-chili" : "text-ink"}`}
                   >
                     <span className="truncate">{label}</span>
-                    {active === id && (
-                      <span
-                        className="size-3.5 shrink-0 rounded-full bg-chili"
-                        aria-hidden="true"
-                      />
-                    )}
                   </button>
                 </motion.li>
               ))}
@@ -147,7 +166,7 @@ export const Navbar = () => {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-ink py-4 text-lg font-bold text-turmeric"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-ink py-3 text-sm font-bold text-turmeric"
             >
               <InstagramIcon size={20} /> Follow us on Instagram
             </a>

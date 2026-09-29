@@ -39,7 +39,10 @@ export const Home = () => {
               Chili & Chill Food Court is the neighbourhood spot where every
               order is cooked fresh, served hot and never rushed out cold.
             </motion.p>
-            <motion.div variants={rise} className="mt-6 flex max-sm:justify-center gap-3">
+            <motion.div
+              variants={rise}
+              className="mt-6 flex max-sm:justify-center gap-3"
+            >
               <button
                 onClick={() => scrollTo("menu")}
                 className="rounded-full border-2 border-ink bg-ink text-sm xl:text-lg px-2 py-2 xl:px-7 xl:py-3 cursor-pointer font-bold text-turmeric shadow-[4px_4px_0_0_var(--color-chili)] transition hover:-translate-y-0.5"
