@@ -114,7 +114,7 @@ export const Navbar = () => {
               target="_blank"
               rel="noreferrer"
               aria-label="Follow us on Instagram"
-              className="hidden lg:inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-full border-2 border-ink bg-chili px-0 text-sm font-bold text-paper transition hover:bg-turmeric hover:text-ink sm:px-4"
+              className="inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-full border-2 border-ink bg-chili px-0 text-sm font-bold text-paper transition hover:bg-turmeric hover:text-ink sm:px-4"
             >
               <InstagramIcon size={18} />{" "}
               <span className="hidden sm:inline">Follow</span>
@@ -162,14 +162,14 @@ export const Navbar = () => {
                 </motion.li>
               ))}
             </ul>
-            <a
+            {/* <a
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink bg-ink py-3 text-sm font-bold text-turmeric"
             >
               <InstagramIcon size={20} /> Follow us on Instagram
-            </a>
+            </a> */}
           </motion.div>
         )}
       </AnimatePresence>
