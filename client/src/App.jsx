@@ -23,7 +23,7 @@ function App() {
         <FindUs />
       </main>
       <Footer />
-      <MobileActionBar />
+      {/* <MobileActionBar /> */}
     </>
   );
 }

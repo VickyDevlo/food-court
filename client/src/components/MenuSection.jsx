@@ -87,7 +87,7 @@ export const MenuSection = () => {
         </AnimatePresence>
       </motion.div>
 
-      <div className="mt-16 flex flex-col items-start justify-between gap-5 border-t-2 border-paper/20 pt-8 sm:flex-row sm:items-center">
+      <div className="mt-16 flex flex-col flex-wrap justify-between gap-5 border-t-2 border-paper/20 pt-8 sm:flex-row items-center">
         <p className="font-display text-2xl font-bold">
           Hungry right now? Call and we'll have it ready.
         </p>

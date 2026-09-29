@@ -60,7 +60,7 @@ export const InstagramPost = () => {
           href={INSTAGRAM_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-ink px-8 py-4 text-lg font-bold text-paper shadow-[4px_4px_0_0_var(--color-turmeric)] transition hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-ink px-8 py-4 sm:text-lg font-bold text-paper shadow-[4px_4px_0_0_var(--color-turmeric)] transition hover:-translate-y-0.5"
         >
           <InstagramIcon size={20} /> Visit our Instagram page
         </a>
