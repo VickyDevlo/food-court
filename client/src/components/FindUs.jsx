@@ -80,13 +80,13 @@ export const FindUs = () => {
             src={`https://www.google.com/maps?q=${encodeURIComponent(CAFE.mapQuery)}&output=embed`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="absolute inset-0 size-full border-0 grayscale-[.6] sepia-[.35] contrast-110 transition hover:grayscale-0 hover:sepia-0"
+            className="absolute inset-0 size-full"
           />
           <a
             href={DIRECTIONS_URL}
             target="_blank"
             rel="noreferrer"
-            className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border-2 border-ink bg-turmeric px-5 py-2.5 text-sm font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
+            className="absolute bottom-3 left-2 inline-flex items-center gap-2 rounded-full border-2 border-ink bg-turmeric px-5 py-2.5 text-sm font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
           >
             <Navigation size={16} /> Get directions
           </a>
